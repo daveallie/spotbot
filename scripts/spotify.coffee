@@ -1,17 +1,4 @@
-# Description:
-#   Metadata lookup for spotify links
-#
-# Dependencies:
-#   None
-#
-# Configuration:
-#   None
-#
-# Commands:
-#   <spotify link> - returns info about the link (track, artist, etc.)
-#
-# Author:
-#   jacobk
+bitlyAccessToken = process.env.BITLY_ACCESS_TOKEN
 
 module.exports = (robot) ->
   robot.hear spotify.link, (msg) ->
@@ -20,7 +7,7 @@ module.exports = (robot) ->
         data = JSON.parse(body)
         [mess, spoturi] = spotify[data.info.type](data)
 
-        msg.http("https://api-ssl.bitly.com").path("/v3/shorten?login=o_2165he6oo0&apiKey=R_497f3ea93ab14114a220dacf3fd71478&longUrl=http%3A%2F%2Fspot.daveallie.com%2F%3Furi%3D#{spoturi}").header('Accept', 'application/json').get() (err, res, body) ->
+        msg.http("https://api-ssl.bitly.com").path("/v3/shorten?access_token=#{bitlyAccessToken}&longUrl=http%3A%2F%2Fspotbot.daveallie.com%2F%3Furi%3D#{spoturi}").header('Accept', 'application/json').get() (err, res, body) ->
           if res.statusCode is 200
             data_temp = JSON.parse(body)
             msg.send mess+" [#{data_temp.data.url}]"
