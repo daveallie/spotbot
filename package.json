@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "author": "Dave Allie",
-  "description": "A simple spotify bot for shortlinking from bitly to spotbot.daveallie.com",
+  "description": "A simple HipChat bot for shortlinking Spotify URI to s.daveallie.com",
   "dependencies": {
     "hubot": "^2.13.1",
     "hubot-heroku-keepalive": "0.0.4",
