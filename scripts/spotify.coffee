@@ -6,11 +6,13 @@ module.exports = (robot) ->
       if res.statusCode is 200
         data = JSON.parse(body)
         [mess, spoturi] = spotify[data.info.type](data)
-
-        msg.http("https://api-ssl.bitly.com").path("/v3/shorten?access_token=#{bitlyAccessToken}&longUrl=http%3A%2F%2Fspotbot.daveallie.com%2F%3Furi%3D#{spoturi}").header('Accept', 'application/json').get() (err, res, body) ->
-          if res.statusCode is 200
-            data_temp = JSON.parse(body)
-            msg.send mess+" [#{data_temp.data.url}]"
+        if (bitlyAccessToken?)
+          msg.http("https://api-ssl.bitly.com").path("/v3/shorten?access_token=#{bitlyAccessToken}&longUrl=http%3A%2F%2Fspotbot.daveallie.com%2F%3Furi%3D#{spoturi}").header('Accept', 'application/json').get() (err, res, body) ->
+            if res.statusCode is 200
+              data_temp = JSON.parse(body)
+              msg.send mess+" [#{data_temp.data.url}]"
+        else
+          msg.send mess+" [http://spotbot.daveallie.com/?uri=#{spoturi}]"
 
 spotify =
   link: /// (
